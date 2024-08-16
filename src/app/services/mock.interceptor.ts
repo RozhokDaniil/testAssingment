@@ -1,5 +1,5 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http'
-import data from '../data';
+import data from '../data.json';
 import { of } from 'rxjs';
 
 export const loggerInterceptor: HttpInterceptorFn = (req, next) => {
@@ -23,6 +23,7 @@ export const loggerInterceptor: HttpInterceptorFn = (req, next) => {
         const updatedItem: any = req.body as any;
         const index = data.findIndex(item => item.eventId === updatedItem.eventId);
         if (index > -1) {
+            console.log('aaa')
             data[index] = updatedItem;
             return of(new HttpResponse({ status: 200, body: updatedItem }));
         } else {
@@ -32,7 +33,7 @@ export const loggerInterceptor: HttpInterceptorFn = (req, next) => {
 
 
     if (method === 'DELETE' && url === '/api/data') {
-        const { eventId }: { eventId: number } = req.body as { eventId: number }; // Type assertion
+        const { eventId }: { eventId: number } = req.body as { eventId: number }; 
         const index = data.findIndex(item => item.eventId === eventId);
         if (index > -1) {
             data.splice(index, 1);

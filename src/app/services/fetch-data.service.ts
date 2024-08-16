@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class FetchDataService {
   private apiUrl = '/api/data'; // mocked
 
   constructor(private http: HttpClient) {}

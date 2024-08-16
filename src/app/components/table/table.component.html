@@ -1,0 +1,31 @@
+<button type="button" class="btn btn-primary mb-2" (click)="openAddPopup()">Add Event</button>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Event Name</th>
+            <th>DM/Ag</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data" (click)="openEditPopup(item)">
+            <td>{{ item.eventId }}</td>
+            <td>{{ item.startDateTime | date: 'MM/dd/yyyy HH:mm' }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.ageInDays }}</td>
+            <td>
+                <ng-container *ngIf="getDisplayValue(item).key !== 'No Data'">
+                    <strong>{{ getDisplayValue(item).key }}:</strong> {{ getDisplayValue(item).value }}
+                </ng-container>
+                <ng-container *ngIf="getDisplayValue(item).key === 'No Data'">
+                    {{ getDisplayValue(item).value }}
+                </ng-container>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<app-modal></app-modal>
