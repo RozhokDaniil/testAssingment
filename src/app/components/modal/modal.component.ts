@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { DataManagementService } from '../../services/management-data.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalService } from '../../services/modal.service';
 import { DescriptionService } from '../../services/description.service';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.css'
 })

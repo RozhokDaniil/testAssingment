@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FetchDataService } from './fetch-data.service';
-import { catchError, tap } from 'rxjs';
+import { CommonEvent } from '../modules/table.modules';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DataManagementService {
-    private data: any[] = [];
+    private data: CommonEvent[] = [];
 
     constructor(private fetchDataService: FetchDataService) {
         this.loadData();
@@ -14,23 +14,23 @@ export class DataManagementService {
 
     private loadData(): void {
         this.fetchDataService.getData().subscribe({
-            next: (data: any[]) => this.data = data,
+            next: (data: CommonEvent[]) => this.data = data,
             error: (err) => console.error('Error loading data', err)
         });
     }
 
-    getData(): any[] {
+    getData(): CommonEvent[] {
         return this.data;
     }
 
-    addItem(item: any) {
+    addItem(item: CommonEvent) {
         item.eventId = this.getNextId();
         item.startDateTime = new Date().toISOString();
 
         return this.fetchDataService.postData(item)
     }
 
-    updateItem(item: any) {
+    updateItem(item: CommonEvent) {
         return this.fetchDataService.putData(item)
     }
 

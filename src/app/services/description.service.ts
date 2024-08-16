@@ -1,46 +1,48 @@
 import { Injectable } from '@angular/core';
+import { DataManagementService } from './management-data.service';
+import { CommonEvent } from '../modules/table.modules';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class DescriptionService {
+    private data: CommonEvent[] = [];
 
-  getDisplayValue(item: any): { key: string, value: string } {
-    if (item.newGroupName !== undefined) {
-      return { key: 'New Group', value: item.newGroupName };
-    } else if (item.heatIndexPeak !== undefined) {
-      return { key: 'Heat Index Peak', value: item.heatIndexPeak.toString() };
-    } else if (item.cowEntryStatus !== undefined) {
-      return { key: 'Cow Entry Status', value: item.cowEntryStatus.toString() };
-    } else if (item.duration !== undefined) {
-      return { key: 'Duration', value: item.duration.toString() };
-    } else if (item.lactationNumber !== undefined) {
-      return { key: 'Lactation Number', value: item.lactationNumber.toString() };
-    } else {
-      return { key: 'No Data', value: 'No Data' };
+    constructor(private dataManagementService: DataManagementService) {
+        this.data === this.dataManagementService.getData()
     }
-  }
 
-  parseDescription(item: any, description: string): void {
-    const [key, value] = description.split(': ').map(s => s.trim());
-    switch (key) {
-      case 'New Group':
-        item.newGroupName = value;
-        break;
-      case 'Heat Index Peak':
-        item.heatIndexPeak = value;
-        break;
-      case 'Cow Entry Status':
-        item.cowEntryStatus = value;
-        break;
-      case 'Duration':
-        item.duration = parseInt(value, 10);
-        break;
-      case 'Lactation Number':
-        item.lactationNumber = parseInt(value, 10);
-        break;
-      default:
-        break;
+    getDisplayValue(item: any): { key: string, value: string } {
+        const fields = this.data[item.type] || [];
+        for (const field of fields as any) {
+            if (item[field] !== undefined) {
+                return { key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field].toString() };
+            }
+        }
+        return { key: 'No Data', value: 'No Data' };
     }
-  }
+
+    parseDescription(item: any, description: string): void {
+        const [key, value] = description.split(': ').map(s => s.trim());
+        const field = this.getFieldFromKey(key);
+        if (field && item.hasOwnProperty(field)) {
+            item[field] = isNaN(Number(value)) ? value : Number(value);
+        }
+    }
+
+    private getFieldFromKey(key: string): string | undefined {
+        const normalizedKey = key.toLowerCase().replace(/\s+/g, '');
+        for (const [eventType, fields] of Object.entries(this.data)) {
+            for (const field of fields as any) {
+                if (this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')).toLowerCase() === normalizedKey) {
+                    return field;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    private capitalizeFirstLetter(string: string): string {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 }

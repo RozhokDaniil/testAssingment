@@ -6,7 +6,7 @@ interface BaseEvent {
     lactationNumber: number;
     daysInLactation: number;
     ageInDays: number;
-    startDateTime: number;
+    startDateTime: string | number;
     reportingDateTime: number;
     deletable: boolean;
 }

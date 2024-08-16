@@ -38,8 +38,6 @@ export class TableComponent implements OnInit {
   }
 
   checkDataDeps() {
-    const typesArr = this.data.map((item) => item.type)
-
     const fieldCounts = this.data.reduce((counts: any, obj) => {
       Object.keys(obj).forEach(key => {
         counts[key] = (counts[key] || 0) + 1;
@@ -51,7 +49,6 @@ export class TableComponent implements OnInit {
       const listOfExceptFields = exceptFields.filter((field: any) => item[field] !== undefined) 
       return {[item.type]: listOfExceptFields}
     })
-    console.log(removeDuplicateKeysAndLength(depsArr))
     return (removeDuplicateKeysAndLength(depsArr), 'depsArr')
   }
 
