@@ -5,18 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { DataManagementService } from '../../services/management-data.service';
 import { ModalComponent } from '../modal/modal.component';
 import { ModalService } from '../../services/modal.service';
-
-interface Item {
-  newGroupName?: string
-  heatIndexPeak?: number
-  cowEntryStatus?: string
-  duration?: number
-  lactationNumber?: number
-  ageInDays?: number
-  type?: string
-  startDateTime?: string
-  eventId?: number
-}
+import { CommonEvent } from '../../modules/table.modules';
+import { removeDuplicateKeysAndLength } from '../../utils/removeDuplicateKeysAndLength';
 
 @Component({
   selector: 'app-table',
@@ -27,18 +17,19 @@ interface Item {
   styleUrl: './table.component.css'
 })
 export class TableComponent implements OnInit {
-  data: Item[] = [];
+  data: CommonEvent[] = [];
 
   constructor(
     private dataManagementService: DataManagementService,
     private modalService: ModalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.data = this.dataManagementService.getData();
+    this.checkDataDeps()
   }
 
-  openEditPopup(item: Item): void {
+  openEditPopup(item: CommonEvent): void {
     this.modalService.openModal(item, true);
   }
 
@@ -46,7 +37,25 @@ export class TableComponent implements OnInit {
     this.modalService.openModal({}, false);
   }
 
-  getDisplayValue(item: Item): { key: string, value: string } {
+  checkDataDeps() {
+    const typesArr = this.data.map((item) => item.type)
+
+    const fieldCounts = this.data.reduce((counts: any, obj) => {
+      Object.keys(obj).forEach(key => {
+        counts[key] = (counts[key] || 0) + 1;
+      });
+      return counts;
+    }, {});
+    const exceptFields = Object.keys(fieldCounts).filter(key => fieldCounts[key] !== this.data.length);
+    const depsArr = this.data.map((item: any) => {
+      const listOfExceptFields = exceptFields.filter((field: any) => item[field] !== undefined) 
+      return {[item.type]: listOfExceptFields}
+    })
+    console.log(removeDuplicateKeysAndLength(depsArr))
+    return (removeDuplicateKeysAndLength(depsArr), 'depsArr')
+  }
+
+  getDisplayValue(item: any): { key: string, value: string } {
     if (item.newGroupName !== undefined) {
       return { key: 'New Group', value: item.newGroupName };
     } else if (item.heatIndexPeak !== undefined) {

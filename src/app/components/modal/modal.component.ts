@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { DataManagementService } from '../../services/management-data.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalService } from '../../services/modal.service';
+import { DescriptionService } from '../../services/description.service';
 
 @Component({
   selector: 'app-modal',
@@ -17,8 +18,12 @@ export class ModalComponent {
   isEdit: boolean = false;
   showModal: boolean = false;
 
+  displayKey: string = '';
+  displayValue: string = '';
+
   constructor(
     private modalService: ModalService,
+    private descriptionService: DescriptionService,
     private dataManagementService: DataManagementService
   ) { }
 
@@ -28,10 +33,14 @@ export class ModalComponent {
       this.originalItem = state.item;
       this.isEdit = state.isEdit;
       this.showModal = state.show;
+      const display = this.descriptionService.getDisplayValue(this.item);
+      this.displayKey = display.key;
+      this.displayValue = display.value;
     });
   }
 
   onSave(): void {
+    this.descriptionService.parseDescription(this.item, `${this.displayKey}: ${this.displayValue}`);
     if (this.isEdit) {
       this.dataManagementService.updateItem(this.item).subscribe()
     } else {

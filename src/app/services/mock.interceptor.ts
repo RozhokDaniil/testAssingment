@@ -23,7 +23,6 @@ export const loggerInterceptor: HttpInterceptorFn = (req, next) => {
         const updatedItem: any = req.body as any;
         const index = data.findIndex(item => item.eventId === updatedItem.eventId);
         if (index > -1) {
-            console.log('aaa')
             data[index] = updatedItem;
             return of(new HttpResponse({ status: 200, body: updatedItem }));
         } else {

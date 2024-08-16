@@ -2,44 +2,35 @@
     [ngClass]="{'show': showModal}" [style.display]="showModal ? 'block' : 'none'" (click)="onBackdropClick($event)">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header flex justify-content-between">
                 <h5 class="modal-title" id="editPopupLabel">{{ isEdit ? 'Edit Event' : 'Add Event' }}</h5>
-                <button type="button" class="close" aria-label="Close" (click)="onCancel()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn btn-danger" *ngIf="isEdit" (click)="onDelete()">Delete</button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="newGroupName">New Group Name:</label>
-                        <input type="text" class="form-control" id="newGroupName" [(ngModel)]="item.newGroupName"
-                            name="newGroupName" />
+                        <label for="startDateTime">Start Date Time:</label>
+                        <input type="text" class="form-control" id="startDateTime" [(ngModel)]="item.startDateTime"
+                            name="startDateTime" />
                     </div>
                     <div class="form-group">
-                        <label for="heatIndexPeak">Heat Index Peak:</label>
-                        <input type="number" class="form-control" id="heatIndexPeak" [(ngModel)]="item.heatIndexPeak"
-                            name="heatIndexPeak" />
+                        <label for="type">Event Name:</label>
+                        <input type="text" class="form-control" id="type" [(ngModel)]="item.type"
+                            name="type" />
                     </div>
                     <div class="form-group">
-                        <label for="cowEntryStatus">Cow Entry Status:</label>
-                        <input type="text" class="form-control" id="cowEntryStatus" [(ngModel)]="item.cowEntryStatus"
-                            name="cowEntryStatus" />
+                        <label for="ageInDays">DM/Ag:</label>
+                        <input type="number" class="form-control" id="ageInDays" [(ngModel)]="item.ageInDays"
+                            name="ageInDays" />
                     </div>
-                    <div class="form-group">
-                        <label for="duration">Duration:</label>
-                        <input type="number" class="form-control" id="duration" [(ngModel)]="item.duration"
-                            name="duration" />
-                    </div>
-                    <div class="form-group">
-                        <label for="lactationNumber">Lactation Number:</label>
-                        <input type="number" class="form-control" id="lactationNumber"
-                            [(ngModel)]="item.lactationNumber" name="lactationNumber" />
-                    </div>
+                    <div>
+                        <label for="description">{{ displayKey }}:</label>
+                        <input id="description" [(ngModel)]="displayValue" name="description" placeholder="Enter description">
+                      </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-                <button type="button" class="btn btn-danger" *ngIf="isEdit" (click)="onDelete()">Delete</button>
                 <button type="button" class="btn btn-primary" (click)="onSave()">Save</button>
             </div>
         </div>
