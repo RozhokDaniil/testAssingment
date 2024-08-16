@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FetchDataService {
-  private apiUrl = '/api/data'; // mocked
+  private apiUrl = '/api/data'; 
 
   constructor(private http: HttpClient) {}
 
