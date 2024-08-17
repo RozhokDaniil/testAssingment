@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { DataManagementService } from './management-data.service';
-import { CommonEvent } from '../modules/table.modules';
-import { removeDuplicateKeysAndLength } from '../utils/removeDuplicateKeysAndLength';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Injectable({
@@ -13,7 +11,7 @@ export class DescriptionService {
 
     constructor(private dataManagementService: DataManagementService, fb: FormBuilder) {
         this.dataDeps = this.dataManagementService.checkDataDeps(),
-        this.fb = fb;
+            this.fb = fb;
     }
 
     initializeForm(item: any): FormGroup {
@@ -26,22 +24,23 @@ export class DescriptionService {
     }
 
     getDisplayValue(item: any): { key: string, value: string } {
-        const fields = this.dataDeps[item.type] || [];
-        for (const field of fields as any) {
-            if (field) {
-                return { key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field] };
+        const exceptFields = this.dataManagementService.exceptFields
+        for(let i = 0; i < exceptFields.length; i++){
+            const key = exceptFields[i]
+            const value = item[key]
+            if(key && value){
+                return { key: key.replace(/([A-Z])/g, ' $1'), value: item[key] };
             }
         }
         return { key: 'No Data', value: 'No Data' };
     }
 
-    getDisplayValues(item: any): any{
-        console.log('getDisplayValues', item)
+    getDisplayValues(item: any): any {
         const fields = this.dataDeps[item.type] || [];
         let arr = []
         for (const field of fields as any) {
             // if (typeof item[field] === 'boolean') {
-                arr.push( { key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field] });
+            arr.push({ key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field] });
             // }
         }
         return arr.length ? arr : [{ key: 'No Data', value: 'No Data' }];

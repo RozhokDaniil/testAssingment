@@ -8,6 +8,7 @@ import { removeDuplicateKeysAndLength } from '../utils/removeDuplicateKeysAndLen
 })
 export class DataManagementService {
     private data: CommonEvent[] = [];
+    exceptFields: string[] = []
     
     constructor(private fetchDataService: FetchDataService) {
         this.loadData();
@@ -73,9 +74,11 @@ export class DataManagementService {
             });
             return counts;
         }, {});
-        const exceptFields = Object.keys(fieldCounts).filter(key => fieldCounts[key] !== this.data.length);
+        this.exceptFields = Object.keys(fieldCounts).filter(key => fieldCounts[key] !== this.data.length);
+        console.log(this.exceptFields, 'exceptFields')
+        
         const depsArr = this.data.map((item: any) => {
-            const listOfExceptFields = exceptFields.filter((field: any) => item[field] !== undefined);
+            const listOfExceptFields = this.exceptFields.filter((field: any) => item[field] !== undefined);
             return { [item.type]: listOfExceptFields };
         });
         const uniqueDepsArr = removeDuplicateKeysAndLength(depsArr);

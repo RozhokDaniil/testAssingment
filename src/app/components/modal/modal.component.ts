@@ -38,6 +38,8 @@ export class ModalComponent {
       this.showModal = state.show;
       this.form = this.descriptionService.initializeForm(this.item);
       this.displayArr = this.descriptionService.getDisplayValues(this.item)
+      console.log(this.displayArr)
+      console.log(this.item)
     });
     
   }
