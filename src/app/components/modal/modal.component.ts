@@ -17,31 +17,27 @@ export class ModalComponent {
   originalItem: any = {}; 
   isEdit: boolean = false;
   showModal: boolean = false;
-
-  displayArr: any = null
-  form: any = FormGroup;
+  form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private modalService: ModalService,
     private descriptionService: DescriptionService,
     private dataManagementService: DataManagementService
-  ) { }
-
-  ngOnInit(): void {
+  ) { 
     this.form = this.fb.group({});
+  }
+ 
+  displayArr: any = null
+  
+  ngOnInit(): void {
     this.modalService.modalState$.subscribe(state => {
       this.item = { ...state.item }; 
       this.originalItem = state.item;
       this.isEdit = state.isEdit;
       this.showModal = state.show;
-      const display = this.descriptionService.getDisplayValues(this.item);
-      console.log(display, 'display')
-      console.log(this.item, 'this.item')
-      this.displayArr = display.length ? display : [display]
-      this.displayArr?.forEach((display: any) => {
-        this.form.addControl(display.key, this.fb.control(display.value || ''));
-      });
+      this.form = this.descriptionService.initializeForm(this.item);
+      this.displayArr = this.descriptionService.getDisplayValues(this.item)
     });
     
   }

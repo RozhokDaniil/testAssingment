@@ -2,27 +2,33 @@ import { Injectable } from '@angular/core';
 import { DataManagementService } from './management-data.service';
 import { CommonEvent } from '../modules/table.modules';
 import { removeDuplicateKeysAndLength } from '../utils/removeDuplicateKeysAndLength';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DescriptionService {
     private dataDeps: any //dataDeps
+    private fb: FormBuilder;
 
+    constructor(private dataManagementService: DataManagementService, fb: FormBuilder) {
+        this.dataDeps = this.dataManagementService.checkDataDeps(),
+        this.fb = fb;
+    }
 
-    constructor(private dataManagementService: DataManagementService) {
-        this.dataDeps = this.dataManagementService.checkDataDeps()
-        // console.log(this.data, 'this.data')
+    initializeForm(item: any): FormGroup {
+        let displayArr = this.getDisplayValues(item);
+        const form = this.fb.group({});
+        displayArr.forEach((display: any) => {
+            form.addControl(display.key, this.fb.control(display.value || ''));
+        });
+        return form;
     }
 
     getDisplayValue(item: any): { key: string, value: string } {
-        console.log('getDisplayValue', item)
         const fields = this.dataDeps[item.type] || [];
-        console.log(this.dataDeps, 'this.data')
-        console.log(fields, 'fields')
         for (const field of fields as any) {
-            // console.log(field, fields, 'aaaaaa')
-            if (item[field]) {
+            if (field) {
                 return { key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field] };
             }
         }
@@ -32,15 +38,13 @@ export class DescriptionService {
     getDisplayValues(item: any): any{
         console.log('getDisplayValues', item)
         const fields = this.dataDeps[item.type] || [];
-        // console.log(this.data, 'this.data')
         let arr = []
         for (const field of fields as any) {
-            console.log(field, fields, 'aaaaaa')
-            if (item[field]) {
+            // if (typeof item[field] === 'boolean') {
                 arr.push( { key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field] });
-            }
+            // }
         }
-        return arr.length ? arr : { key: 'No Data', value: 'No Data' };
+        return arr.length ? arr : [{ key: 'No Data', value: 'No Data' }];
     }
 
     parseDescription(item: any, description: string): void {

@@ -59,12 +59,12 @@ export class DataManagementService {
             const listOfExceptFields = exceptFields.filter((field: any) => item[field] !== undefined)
             return { [item.type]: listOfExceptFields }
         })
-        console.log(removeDuplicateKeysAndLength(depsArr), 'depsArr')
+        // console.log(removeDuplicateKeysAndLength(depsArr), 'depsArr')
         return removeDuplicateKeysAndLength(depsArr)
     }
     
     checkDataDeps() {
-        console.log('checkDataDeps called')
+        // console.log('checkDataDeps called')
         type KeyedArray = { [key: string]: any[] };
         // console.log('1111');
         const fieldCounts = this.data.reduce((counts: any, obj: any) => {
@@ -85,7 +85,7 @@ export class DataManagementService {
             return acc;
         }, {});
     
-        console.log(result, 'depsArr11');
+        // console.log(result, 'depsArr11');
         return result;
     }
     
