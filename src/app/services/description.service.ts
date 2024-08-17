@@ -25,11 +25,11 @@ export class DescriptionService {
 
     getDisplayValue(item: any): { key: string, value: string } {
         const exceptFields = this.dataManagementService.exceptFields
-        for(let i = 0; i < exceptFields.length; i++){
+        for (let i = 0; i < exceptFields.length; i++) {
             const key = exceptFields[i]
             const value = item[key]
-            if(key && value){
-                return { key: key.replace(/([A-Z])/g, ' $1'), value: item[key] };
+            if (key && value) {
+                return { key, value: item[key] };
             }
         }
         return { key: 'No Data', value: 'No Data' };
@@ -39,24 +39,35 @@ export class DescriptionService {
         const fields = this.dataDeps[item.type] || [];
         let arr = []
         for (const field of fields as any) {
-            arr.push({ key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field] });
+            arr.push({ key: field, value: item[field] });
         }
         return arr.length ? arr : isEdit ? [{ key: 'No Data', value: 'No Data' }] : [];
     }
 
-    parseDescription(item: any, description: string): void {
-        const [key, value] = description.split(': ').map(s => s.trim());
-        const field = this.getFieldFromKey(key);
-        if (field && item.hasOwnProperty(field)) {
-            item[field] = isNaN(Number(value)) ? value : Number(value);
-        }
+    parseDescription(item: any, descriptions: { key: string, value: any }[]): void {
+        console.log(item, 'Item before update');
+        console.log(descriptions, 'Descriptions before update');
+
+        const itemMap = new Map(Object.entries(item));
+
+        descriptions.forEach(description => {
+            const { key } = description;
+            const field = this.getFieldFromKey(key);
+
+            if (field && itemMap.has(field)) {
+                description.value = itemMap.get(field);
+            } else {
+                description.value = null;
+            }
+        });
     }
 
     private getFieldFromKey(key: string): string | undefined {
         const normalizedKey = key.toLowerCase().replace(/\s+/g, '');
         for (const [eventType, fields] of Object.entries(this.dataDeps)) {
             for (const field of fields as any) {
-                if (this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')).toLowerCase() === normalizedKey) {
+                const normalizedField = field.toLowerCase().replace(/\s+/g, '');
+                if (normalizedField === normalizedKey) {
                     return field;
                 }
             }
@@ -64,7 +75,7 @@ export class DescriptionService {
         return undefined;
     }
 
-    private capitalizeFirstLetter(string: string): string {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
+    // private capitalizeFirstLetter(string: string): string {
+    //     return string.charAt(0).toUpperCase() + string.slice(1);
+    // }
 }

@@ -82,7 +82,8 @@ export class ModalComponent {
   }
 
   onSave(): void {
-    // this.descriptionService.parseDescription(this.item, `${this.displayKey}: ${this.displayValue}`);
+    this.item = { ...this.item, ...this.form.value};
+    this.descriptionService.parseDescription(this.item, this.displayArr);
     if (this.isEdit) {
       this.dataManagementService.updateItem(this.item).subscribe()
     } else {
