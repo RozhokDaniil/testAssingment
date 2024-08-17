@@ -47,7 +47,7 @@ export class DataManagementService {
     }
 
     private checkDataDeps2() {
-        console.log('1111')
+        // console.log('1111')
         const fieldCounts = this.data.reduce((counts: any, obj) => {
             Object.keys(obj).forEach(key => {
                 counts[key] = (counts[key] || 0) + 1;
@@ -64,8 +64,9 @@ export class DataManagementService {
     }
     
     checkDataDeps() {
+        console.log('checkDataDeps called')
         type KeyedArray = { [key: string]: any[] };
-        console.log('1111');
+        // console.log('1111');
         const fieldCounts = this.data.reduce((counts: any, obj: any) => {
             Object.keys(obj).forEach(key => {
                 counts[key] = (counts[key] || 0) + 1;

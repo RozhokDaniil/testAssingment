@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DataManagementService } from '../../services/management-data.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalService } from '../../services/modal.service';
 import { DescriptionService } from '../../services/description.service';
 
@@ -18,30 +18,36 @@ export class ModalComponent {
   isEdit: boolean = false;
   showModal: boolean = false;
 
-  displayKey: string = '';
-  displayValue: string = '';
+  displayArr: any = null
+  form: any = FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private modalService: ModalService,
     private descriptionService: DescriptionService,
     private dataManagementService: DataManagementService
   ) { }
 
   ngOnInit(): void {
+    this.form = this.fb.group({});
     this.modalService.modalState$.subscribe(state => {
       this.item = { ...state.item }; 
       this.originalItem = state.item;
       this.isEdit = state.isEdit;
       this.showModal = state.show;
-      const display = this.descriptionService.getDisplayValue(this.item);
-      this.displayKey = display.key;
-      this.displayValue = display.value;
+      const display = this.descriptionService.getDisplayValues(this.item);
+      console.log(display, 'display')
+      console.log(this.item, 'this.item')
+      this.displayArr = display.length ? display : [display]
+      this.displayArr?.forEach((display: any) => {
+        this.form.addControl(display.key, this.fb.control(display.value || ''));
+      });
     });
-    console.log(this)
+    
   }
 
   onSave(): void {
-    this.descriptionService.parseDescription(this.item, `${this.displayKey}: ${this.displayValue}`);
+    // this.descriptionService.parseDescription(this.item, `${this.displayKey}: ${this.displayValue}`);
     if (this.isEdit) {
       this.dataManagementService.updateItem(this.item).subscribe()
     } else {

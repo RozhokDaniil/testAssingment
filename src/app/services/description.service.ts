@@ -7,22 +7,40 @@ import { removeDuplicateKeysAndLength } from '../utils/removeDuplicateKeysAndLen
     providedIn: 'root'
 })
 export class DescriptionService {
-    private data: any
+    private dataDeps: any //dataDeps
+
 
     constructor(private dataManagementService: DataManagementService) {
-        this.data = this.dataManagementService.checkDataDeps()
-        console.log(this.data, 'this.data')
+        this.dataDeps = this.dataManagementService.checkDataDeps()
+        // console.log(this.data, 'this.data')
     }
 
     getDisplayValue(item: any): { key: string, value: string } {
-        console.log('getDisplayValue' )
-        const fields = this.data[item.type] || [];
+        console.log('getDisplayValue', item)
+        const fields = this.dataDeps[item.type] || [];
+        console.log(this.dataDeps, 'this.data')
+        console.log(fields, 'fields')
         for (const field of fields as any) {
-            if (item[field] !== undefined) {
-                return { key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field].toString() };
+            // console.log(field, fields, 'aaaaaa')
+            if (item[field]) {
+                return { key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field] };
             }
         }
         return { key: 'No Data', value: 'No Data' };
+    }
+
+    getDisplayValues(item: any): any{
+        console.log('getDisplayValues', item)
+        const fields = this.dataDeps[item.type] || [];
+        // console.log(this.data, 'this.data')
+        let arr = []
+        for (const field of fields as any) {
+            console.log(field, fields, 'aaaaaa')
+            if (item[field]) {
+                arr.push( { key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field] });
+            }
+        }
+        return arr.length ? arr : { key: 'No Data', value: 'No Data' };
     }
 
     parseDescription(item: any, description: string): void {
@@ -35,7 +53,7 @@ export class DescriptionService {
 
     private getFieldFromKey(key: string): string | undefined {
         const normalizedKey = key.toLowerCase().replace(/\s+/g, '');
-        for (const [eventType, fields] of Object.entries(this.data)) {
+        for (const [eventType, fields] of Object.entries(this.dataDeps)) {
             for (const field of fields as any) {
                 if (this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')).toLowerCase() === normalizedKey) {
                     return field;
