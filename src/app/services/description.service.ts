@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
     providedIn: 'root'
 })
 export class DescriptionService {
-    private dataDeps: any //dataDeps
+    private dataDeps: any;
     private fb: FormBuilder;
 
     constructor(private dataManagementService: DataManagementService, fb: FormBuilder) {
@@ -35,15 +35,13 @@ export class DescriptionService {
         return { key: 'No Data', value: 'No Data' };
     }
 
-    getDisplayValues(item: any): any {
+    getDisplayValues(item: any, isEdit?: boolean): any {
         const fields = this.dataDeps[item.type] || [];
         let arr = []
         for (const field of fields as any) {
-            // if (typeof item[field] === 'boolean') {
             arr.push({ key: this.capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1')), value: item[field] });
-            // }
         }
-        return arr.length ? arr : [{ key: 'No Data', value: 'No Data' }];
+        return arr.length ? arr : isEdit ? [{ key: 'No Data', value: 'No Data' }] : [];
     }
 
     parseDescription(item: any, description: string): void {

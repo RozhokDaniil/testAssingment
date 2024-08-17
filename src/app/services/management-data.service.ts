@@ -9,6 +9,7 @@ import { removeDuplicateKeysAndLength } from '../utils/removeDuplicateKeysAndLen
 export class DataManagementService {
     private data: CommonEvent[] = [];
     exceptFields: string[] = []
+    commonFields: string[] = []
     eventTypes: string[] = []
     
     constructor(private fetchDataService: FetchDataService) {
@@ -57,7 +58,7 @@ export class DataManagementService {
             return counts;
         }, {});
         this.exceptFields = Object.keys(fieldCounts).filter(key => fieldCounts[key] !== this.data.length);
-        
+        this.commonFields = Object.keys(fieldCounts).filter(key => fieldCounts[key] === this.data.length);
         const depsArr = this.data.map((item: any) => {
             const listOfExceptFields = this.exceptFields.filter((field: any) => item[field] !== undefined);
             return { [item.type]: listOfExceptFields };
