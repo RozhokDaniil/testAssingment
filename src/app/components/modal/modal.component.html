@@ -15,30 +15,19 @@
                     </div>
                     <div class="form-group">
                         <label for="type">Event Name:</label>
-                        <input type="text" class="form-control" id="type" [(ngModel)]="item.type" name="type" />
+                        <select class="form-control" id="type" [(ngModel)]="item.type" (ngModelChange)="objChanged($event)" name="type">
+                            <option *ngFor="let event of eventTypes" [value]="event">{{ event }}</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="ageInDays">DM/Ag:</label>
                         <input type="number" class="form-control" id="ageInDays" [(ngModel)]="item.ageInDays"
                             name="ageInDays" />
                     </div>
-                    <!-- <div>
-                        <label for="description">{{ displayKey }}:</label>
-                        <input id="description" [(ngModel)]="displayValue" name="description"
-                            placeholder="Enter description">
-                    </div> -->
-                    
-                    <!-- <div *ngFor="let display of displayArr">
-                        <div *ngIf="display.key && display.value">
-                            <label for="{{display.key}}">{{ display.key }}:</label>
-                            <input [(ngModel)]="display.value" [id]="display.key" formControlName="description"
-                                placeholder="Enter description" />
-                        </div>
-                    </div> -->
                     <div [formGroup]="this.form" *ngFor="let display of displayArr">
                         <div *ngIf="display.key">
                           <label for="{{display.key}}">{{ display.key }}:</label>
-                          <input [id]="display.key" [formControlName]="display.key" placeholder="Enter description" />
+                          <input [id]="display.key" [formControlName]="display.key" placeholder="Enter {{display.key}}" />
                         </div>
                       </div>
                 </form>

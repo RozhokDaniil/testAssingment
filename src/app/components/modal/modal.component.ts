@@ -18,6 +18,7 @@ export class ModalComponent {
   isEdit: boolean = false;
   showModal: boolean = false;
   form: FormGroup;
+  eventTypes: string[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -38,10 +39,25 @@ export class ModalComponent {
       this.showModal = state.show;
       this.form = this.descriptionService.initializeForm(this.item);
       this.displayArr = this.descriptionService.getDisplayValues(this.item)
-      console.log(this.displayArr)
-      console.log(this.item)
+      this.eventTypes = this.dataManagementService.eventTypes
+      console.log(this.displayArr, 'displayArr')
+      console.log(this.item, 'item')
     });
-    
+  }
+
+  objChanged(event: string){
+    const bla = this.dataManagementService.exceptFields.map((field) => delete this.item[field])
+    const missedDeps = this.dataManagementService.checkDataDeps()[event]
+    missedDeps.forEach((field) => {
+      this.item[field] = undefined
+    })
+    this.updateDisplayArr()
+    console.log(this.item)
+    this.form = this.descriptionService.initializeForm(this.item)
+  }
+
+  private updateDisplayArr(): void {
+    this.displayArr = this.descriptionService.getDisplayValues(this.item);
   }
 
   onSave(): void {

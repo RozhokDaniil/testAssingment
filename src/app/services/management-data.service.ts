@@ -9,11 +9,11 @@ import { removeDuplicateKeysAndLength } from '../utils/removeDuplicateKeysAndLen
 export class DataManagementService {
     private data: CommonEvent[] = [];
     exceptFields: string[] = []
+    eventTypes: string[] = []
     
     constructor(private fetchDataService: FetchDataService) {
         this.loadData();
         this.checkDataDeps()
-        // this.checkDataDeps2()
     }
 
     private loadData(): void {
@@ -46,28 +46,10 @@ export class DataManagementService {
         const maxId = this.data.reduce((max, item) => item.eventId > max ? item.eventId : max, 0);
         return maxId + 1;
     }
-
-    private checkDataDeps2() {
-        // console.log('1111')
-        const fieldCounts = this.data.reduce((counts: any, obj) => {
-            Object.keys(obj).forEach(key => {
-                counts[key] = (counts[key] || 0) + 1;
-            });
-            return counts;
-        }, {});
-        const exceptFields = Object.keys(fieldCounts).filter(key => fieldCounts[key] !== this.data.length);
-        const depsArr = this.data.map((item: any) => {
-            const listOfExceptFields = exceptFields.filter((field: any) => item[field] !== undefined)
-            return { [item.type]: listOfExceptFields }
-        })
-        // console.log(removeDuplicateKeysAndLength(depsArr), 'depsArr')
-        return removeDuplicateKeysAndLength(depsArr)
-    }
     
     checkDataDeps() {
-        // console.log('checkDataDeps called')
+        this.eventTypes = [...new Set(this.data.map((item) => item.type))]
         type KeyedArray = { [key: string]: any[] };
-        // console.log('1111');
         const fieldCounts = this.data.reduce((counts: any, obj: any) => {
             Object.keys(obj).forEach(key => {
                 counts[key] = (counts[key] || 0) + 1;
@@ -75,7 +57,6 @@ export class DataManagementService {
             return counts;
         }, {});
         this.exceptFields = Object.keys(fieldCounts).filter(key => fieldCounts[key] !== this.data.length);
-        console.log(this.exceptFields, 'exceptFields')
         
         const depsArr = this.data.map((item: any) => {
             const listOfExceptFields = this.exceptFields.filter((field: any) => item[field] !== undefined);
@@ -88,7 +69,6 @@ export class DataManagementService {
             return acc;
         }, {});
     
-        // console.log(result, 'depsArr11');
         return result;
     }
     
