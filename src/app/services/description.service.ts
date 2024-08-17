@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { DataManagementService } from './management-data.service';
 import { CommonEvent } from '../modules/table.modules';
+import { removeDuplicateKeysAndLength } from '../utils/removeDuplicateKeysAndLength';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DescriptionService {
-    private data: CommonEvent[] = [];
+    private data: any
 
     constructor(private dataManagementService: DataManagementService) {
-        this.data === this.dataManagementService.getData()
+        this.data = this.dataManagementService.checkDataDeps()
+        console.log(this.data, 'this.data')
     }
 
     getDisplayValue(item: any): { key: string, value: string } {
+        console.log('getDisplayValue' )
         const fields = this.data[item.type] || [];
         for (const field of fields as any) {
             if (item[field] !== undefined) {

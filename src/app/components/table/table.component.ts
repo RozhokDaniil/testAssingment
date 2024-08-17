@@ -26,7 +26,6 @@ export class TableComponent implements OnInit {
 
   ngOnInit(): void {
     this.data = this.dataManagementService.getData();
-    this.checkDataDeps()
   }
 
   openEditPopup(item: CommonEvent): void {
@@ -37,20 +36,7 @@ export class TableComponent implements OnInit {
     this.modalService.openModal({}, false);
   }
 
-  checkDataDeps() {
-    const fieldCounts = this.data.reduce((counts: any, obj) => {
-      Object.keys(obj).forEach(key => {
-        counts[key] = (counts[key] || 0) + 1;
-      });
-      return counts;
-    }, {});
-    const exceptFields = Object.keys(fieldCounts).filter(key => fieldCounts[key] !== this.data.length);
-    const depsArr = this.data.map((item: any) => {
-      const listOfExceptFields = exceptFields.filter((field: any) => item[field] !== undefined) 
-      return {[item.type]: listOfExceptFields}
-    })
-    return (removeDuplicateKeysAndLength(depsArr), 'depsArr')
-  }
+  
 
   getDisplayValue(item: any): { key: string, value: string } {
     if (item.newGroupName !== undefined) {

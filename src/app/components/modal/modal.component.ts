@@ -37,6 +37,7 @@ export class ModalComponent {
       this.displayKey = display.key;
       this.displayValue = display.value;
     });
+    console.log(this)
   }
 
   onSave(): void {
