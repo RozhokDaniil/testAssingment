@@ -19,6 +19,7 @@ export class ModalComponent {
   showModal: boolean = false;
   form: FormGroup;
   eventTypes: string[] = []
+  private initialTypeValue: string = ''; 
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +35,7 @@ export class ModalComponent {
   ngOnInit(): void {
     this.modalService.modalState$.subscribe(state => {
       this.item = { ...state.item }; 
+      this.initialTypeValue = state.item.type
       this.originalItem = state.item;
       this.isEdit = state.isEdit;
       this.showModal = state.show;
@@ -45,15 +47,34 @@ export class ModalComponent {
     });
   }
 
-  objChanged(event: string){
-    const bla = this.dataManagementService.exceptFields.map((field) => delete this.item[field])
-    const missedDeps = this.dataManagementService.checkDataDeps()[event]
+  objChanged(event: string) {
+    this.openConfirmationModal(event);
+  }
+
+  private openConfirmationModal(event: string) {
+    this.modalService.openConfirmationModal();
+    this.modalService.confirmation$.subscribe(state => {
+      console.log('aaaa')
+      if (state.isConfirmed === null) {
+      } else if(state.isConfirmed) {
+        console.log('bbbbbb')
+        this.executeObjChanged(event);
+      } else {
+        console.log('ffff', this.initialTypeValue)
+        this.item.type = this.initialTypeValue; 
+      }
+    });
+  }
+
+  private executeObjChanged(event: string) {
+    console.log('executeObjChanged')
+    const missedDeps = this.dataManagementService.checkDataDeps()[event];
     missedDeps.forEach((field) => {
-      this.item[field] = undefined
-    })
-    this.updateDisplayArr()
-    console.log(this.item)
-    this.form = this.descriptionService.initializeForm(this.item)
+      this.item[field] = undefined;
+    });
+    this.updateDisplayArr();
+    console.log(this.item);
+    this.form = this.descriptionService.initializeForm(this.item);
   }
 
   private updateDisplayArr(): void {

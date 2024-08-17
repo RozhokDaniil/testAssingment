@@ -6,13 +6,13 @@ import { DataManagementService } from '../../services/management-data.service';
 import { ModalComponent } from '../modal/modal.component';
 import { ModalService } from '../../services/modal.service';
 import { CommonEvent } from '../../modules/table.modules';
-import { removeDuplicateKeysAndLength } from '../../utils/removeDuplicateKeysAndLength';
 import { DescriptionService } from '../../services/description.service';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [RouterOutlet, DatePipe, FormsModule, CommonModule, ModalComponent],
+  imports: [RouterOutlet, DatePipe, FormsModule, CommonModule, ModalComponent, ConfirmationModalComponent],
 
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
@@ -40,21 +40,4 @@ export class TableComponent implements OnInit {
   openAddPopup(): void {
     this.modalService.openModal({}, false);
   }
-
-  // getDisplayValue(item: any): { key: string, value: string } {
-  //   // if (item.newGroupName !== undefined) {
-  //   //   return { key: 'New Group', value: item.newGroupName };
-  //   // } else if (item.heatIndexPeak !== undefined) {
-  //   //   return { key: 'Heat Index Peak', value: item.heatIndexPeak.toString() };
-  //   // } else if (item.cowEntryStatus !== undefined) {
-  //   //   return { key: 'Cow Entry Status', value: item.cowEntryStatus.toString() };
-  //   // } else if (item.duration !== undefined) {
-  //   //   return { key: 'Duration', value: item.duration.toString() };
-  //   // } else if (item.lactationNumber !== undefined) {
-  //   //   return { key: 'Lactation Number', value: item.lactationNumber.toString() };
-  //   // } else {
-  //   //   return { key: 'No Data', value: 'No Data' };
-  //   // }
-  //   return { key: 'No Data', value: 'No Data' }
-  // }
 }
