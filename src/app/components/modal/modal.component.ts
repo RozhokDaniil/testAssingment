@@ -42,8 +42,6 @@ export class ModalComponent {
       this.form = this.descriptionService.initializeForm(this.item);
       this.displayArr = this.descriptionService.getDisplayValues(this.item, this.isEdit)
       this.eventTypes = this.dataManagementService.eventTypes
-      console.log(this.displayArr, 'displayArr')
-      console.log(this.item, 'item')
     });
   }
 

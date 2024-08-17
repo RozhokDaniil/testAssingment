@@ -45,9 +45,6 @@ export class DescriptionService {
     }
 
     parseDescription(item: any, descriptions: { key: string, value: any }[]): void {
-        console.log(item, 'Item before update');
-        console.log(descriptions, 'Descriptions before update');
-
         const itemMap = new Map(Object.entries(item));
 
         descriptions.forEach(description => {
