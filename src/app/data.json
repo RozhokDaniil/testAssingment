@@ -32,7 +32,7 @@
     {
       "alertType": "pre Calving",
       "duration": 990,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": null,
       "daysInPregnancy": null,
       "type": "distress",
@@ -64,7 +64,7 @@
     {
       "alertType": "moderate Pre Calving",
       "duration": 720,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514829642,
       "daysInPregnancy": null,
       "type": "distress",
@@ -79,7 +79,7 @@
       "reportingDateTime": 1514829724
     },
     {
-      "heatIndexPeak": "92",
+      "heatIndexPeak": 92,
       "type": "systemHeat",
       "cowId": 728,
       "animalId": "767",
@@ -250,7 +250,7 @@
       "reportingDateTime": 1514813097
     },
     {
-      "heatIndexPeak": "98",
+      "heatIndexPeak": 98,
       "type": "systemHeat",
       "cowId": 730,
       "animalId": "769",
@@ -263,7 +263,7 @@
       "reportingDateTime": 1514841344
     },
     {
-      "heatIndexPeak": "99",
+      "heatIndexPeak": 99,
       "type": "systemHeat",
       "cowId": 738,
       "animalId": "780",
@@ -276,7 +276,7 @@
       "reportingDateTime": 1514813125
     },
     {
-      "heatIndexPeak": "87",
+      "heatIndexPeak": 87,
       "type": "systemHeat",
       "cowId": 699,
       "animalId": "725",
@@ -289,7 +289,7 @@
       "reportingDateTime": 1514809528
     },
     {
-      "heatIndexPeak": "96",
+      "heatIndexPeak": 96,
       "type": "systemHeat",
       "cowId": 845,
       "animalId": "1489",
@@ -333,7 +333,7 @@
       "reportingDateTime": 1514813095
     },
     {
-      "heatIndexPeak": "87",
+      "heatIndexPeak": 87,
       "type": "systemHeat",
       "cowId": 589,
       "animalId": "483",
@@ -348,7 +348,7 @@
     {
       "alertType": "distress",
       "duration": 1250,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514770647,
       "daysInPregnancy": null,
       "type": "distress",
@@ -363,7 +363,7 @@
       "reportingDateTime": 1514770923
     },
     {
-      "heatIndexPeak": "95",
+      "heatIndexPeak": 95,
       "type": "systemHeat",
       "cowId": 709,
       "animalId": "738",
@@ -376,7 +376,7 @@
       "reportingDateTime": 1514772324
     },
     {
-      "heatIndexPeak": "91",
+      "heatIndexPeak": 91,
       "type": "systemHeat",
       "cowId": 636,
       "animalId": "624",
@@ -389,7 +389,7 @@
       "reportingDateTime": 1514768779
     },
     {
-      "heatIndexPeak": "65",
+      "heatIndexPeak": 65,
       "type": "systemHeat",
       "cowId": 1004,
       "animalId": "149",
@@ -402,7 +402,7 @@
       "reportingDateTime": 1514768799
     },
     {
-      "heatIndexPeak": "99",
+      "heatIndexPeak": 99,
       "type": "systemHeat",
       "cowId": 1022,
       "animalId": "170",
@@ -447,7 +447,7 @@
       "reportingDateTime": 1514749021
     },
     {
-      "heatIndexPeak": "98",
+      "heatIndexPeak": 98,
       "type": "systemHeat",
       "cowId": 662,
       "animalId": "669",
@@ -460,7 +460,7 @@
       "reportingDateTime": 1514802323
     },
     {
-      "heatIndexPeak": "99",
+      "heatIndexPeak": 99,
       "type": "systemHeat",
       "cowId": 653,
       "animalId": "656",
@@ -617,7 +617,7 @@
     {
       "alertType": "distress",
       "duration": 920,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514670301,
       "daysInPregnancy": null,
       "type": "distress",
@@ -634,7 +634,7 @@
     {
       "alertType": "distress",
       "duration": 1040,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514662936,
       "daysInPregnancy": null,
       "type": "distress",
@@ -649,7 +649,7 @@
       "reportingDateTime": 1514663523
     },
     {
-      "heatIndexPeak": "95",
+      "heatIndexPeak": 95,
       "type": "systemHeat",
       "cowId": 712,
       "animalId": "742",
@@ -662,7 +662,7 @@
       "reportingDateTime": 1514763315
     },
     {
-      "heatIndexPeak": "91",
+      "heatIndexPeak": 91,
       "type": "systemHeat",
       "cowId": 626,
       "animalId": "594",
@@ -675,7 +675,7 @@
       "reportingDateTime": 1514689524
     },
     {
-      "heatIndexPeak": "99",
+      "heatIndexPeak": 99,
       "type": "systemHeat",
       "cowId": 790,
       "animalId": "846",
@@ -690,7 +690,7 @@
     {
       "alertType": "distress",
       "duration": 1360,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514646376,
       "daysInPregnancy": null,
       "type": "distress",
@@ -705,7 +705,7 @@
       "reportingDateTime": 1514646723
     },
     {
-      "heatIndexPeak": "59",
+      "heatIndexPeak": 59,
       "type": "systemHeat",
       "cowId": 958,
       "animalId": "504",
@@ -718,7 +718,7 @@
       "reportingDateTime": 1514682403
     },
     {
-      "heatIndexPeak": "85",
+      "heatIndexPeak": 85,
       "type": "systemHeat",
       "cowId": 799,
       "animalId": "857",
@@ -733,7 +733,7 @@
     {
       "alertType": "distress",
       "duration": 1320,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514730761,
       "daysInPregnancy": null,
       "type": "distress",
@@ -748,7 +748,7 @@
       "reportingDateTime": 1514731323
     },
     {
-      "heatIndexPeak": "93",
+      "heatIndexPeak": 93,
       "type": "systemHeat",
       "cowId": 652,
       "animalId": "654",
@@ -763,7 +763,7 @@
     {
       "alertType": "distress",
       "duration": 860,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514630876,
       "daysInPregnancy": null,
       "type": "distress",
@@ -780,7 +780,7 @@
     {
       "alertType": "distress",
       "duration": 1390,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514635141,
       "daysInPregnancy": null,
       "type": "distress",
@@ -797,7 +797,7 @@
     {
       "alertType": "distress",
       "duration": 1320,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514615205,
       "daysInPregnancy": null,
       "type": "distress",
@@ -829,7 +829,7 @@
     {
       "alertType": "distress",
       "duration": 1380,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514611605,
       "daysInPregnancy": null,
       "type": "distress",
@@ -874,7 +874,7 @@
       "reportingDateTime": 1514647512
     },
     {
-      "heatIndexPeak": "94",
+      "heatIndexPeak": 94,
       "type": "systemHeat",
       "cowId": 888,
       "animalId": "938",
@@ -951,7 +951,7 @@
       "reportingDateTime": 1514620380
     },
     {
-      "heatIndexPeak": "91",
+      "heatIndexPeak": 91,
       "type": "systemHeat",
       "cowId": 635,
       "animalId": "623",
@@ -964,7 +964,7 @@
       "reportingDateTime": 1514554506
     },
     {
-      "heatIndexPeak": "94",
+      "heatIndexPeak": 94,
       "type": "systemHeat",
       "cowId": 779,
       "animalId": "829",
@@ -977,7 +977,7 @@
       "reportingDateTime": 1514553333
     },
     {
-      "heatIndexPeak": "85",
+      "heatIndexPeak": 85,
       "type": "systemHeat",
       "cowId": 725,
       "animalId": "762",
@@ -1005,7 +1005,7 @@
       "reportingDateTime": 1514533504
     },
     {
-      "heatIndexPeak": "99",
+      "heatIndexPeak": 99,
       "type": "systemHeat",
       "cowId": 621,
       "animalId": "587",
@@ -1036,7 +1036,7 @@
       "reportingDateTime": 1514749003
     },
     {
-      "heatIndexPeak": "87",
+      "heatIndexPeak": 87,
       "type": "systemHeat",
       "cowId": 699,
       "animalId": "725",
@@ -1049,7 +1049,7 @@
       "reportingDateTime": 1514499345
     },
     {
-      "heatIndexPeak": "97",
+      "heatIndexPeak": 97,
       "type": "systemHeat",
       "cowId": 592,
       "animalId": "526",
@@ -1096,7 +1096,7 @@
       "reportingDateTime": 1514620375
     },
     {
-      "heatIndexPeak": "99",
+      "heatIndexPeak": 99,
       "type": "systemHeat",
       "cowId": 669,
       "animalId": "677",
@@ -1109,7 +1109,7 @@
       "reportingDateTime": 1514542539
     },
     {
-      "heatIndexPeak": "63",
+      "heatIndexPeak": 63,
       "type": "systemHeat",
       "cowId": 943,
       "animalId": "994",
@@ -1122,7 +1122,7 @@
       "reportingDateTime": 1514534720
     },
     {
-      "heatIndexPeak": "86",
+      "heatIndexPeak": 86,
       "type": "systemHeat",
       "cowId": 931,
       "animalId": "982",
@@ -1342,7 +1342,7 @@
       "reportingDateTime": 1514620360
     },
     {
-      "heatIndexPeak": "99",
+      "heatIndexPeak": 99,
       "type": "systemHeat",
       "cowId": 640,
       "animalId": "635",
@@ -1357,7 +1357,7 @@
     {
       "alertType": "postCalving",
       "duration": 1360,
-      "originalStarеDateTime": null,
+      "originalStartDateTime": null,
       "endDateTime": 1514394648,
       "daysInPregnancy": null,
       "type": "distress",
@@ -1372,7 +1372,7 @@
       "reportingDateTime": 1514394723
     },
     {
-      "heatIndexPeak": "78",
+      "heatIndexPeak": 78,
       "type": "systemHeat",
       "cowId": 608,
       "animalId": "560",
@@ -1385,7 +1385,7 @@
       "reportingDateTime": 1514427339
     },
     {
-      "heatIndexPeak": "93",
+      "heatIndexPeak": 93,
       "type": "systemHeat",
       "cowId": 618,
       "animalId": "582",
@@ -1428,7 +1428,7 @@
       "reportingDateTime": 1514390104
     },
     {
-      "heatIndexPeak": "64",
+      "heatIndexPeak": 64,
       "type": "systemHeat",
       "cowId": 920,
       "animalId": "971",
@@ -1441,7 +1441,7 @@
       "reportingDateTime": 1514393705
     },
     {
-      "heatIndexPeak": "56",
+      "heatIndexPeak": 56,
       "type": "systemHeat",
       "cowId": 760,
       "animalId": "811",

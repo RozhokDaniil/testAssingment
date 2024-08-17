@@ -5,6 +5,11 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { ModalService } from '../../services/modal.service';
 import { DescriptionService } from '../../services/description.service';
 
+export interface FieldDefinition {
+  key: string;
+  type: 'text' | 'number' | 'date' | 'checkbox';
+}
+
 @Component({
   selector: 'app-modal',
   standalone: true,
@@ -14,27 +19,28 @@ import { DescriptionService } from '../../services/description.service';
 })
 export class ModalComponent {
   item: any = {};
-  originalItem: any = {}; 
+  originalItem: any = {};
   isEdit: boolean = false;
   showModal: boolean = false;
   form: FormGroup;
   eventTypes: string[] = []
-  private initialTypeValue: string = ''; 
+  private initialTypeValue: string = '';
+  fieldDefinitions: FieldDefinition[] = [];
 
   constructor(
     private fb: FormBuilder,
     private modalService: ModalService,
     private descriptionService: DescriptionService,
     private dataManagementService: DataManagementService
-  ) { 
+  ) {
     this.form = this.fb.group({});
   }
- 
+
   displayArr: any = null
-  
+
   ngOnInit(): void {
     this.modalService.modalState$.subscribe(state => {
-      this.item = { ...state.item }; 
+      this.item = { ...state.item };
       this.initialTypeValue = state.item.type
       this.originalItem = state.item;
       this.isEdit = state.isEdit;
@@ -42,6 +48,7 @@ export class ModalComponent {
       this.form = this.descriptionService.initializeForm(this.item);
       this.displayArr = this.descriptionService.getDisplayValues(this.item, this.isEdit)
       this.eventTypes = this.dataManagementService.eventTypes
+       this.fieldDefinitions = this.dataManagementService.getTypes(this.item);
     });
   }
 
@@ -53,10 +60,11 @@ export class ModalComponent {
     this.modalService.openConfirmationModal();
     this.modalService.confirmation$.subscribe(state => {
       if (state.isConfirmed === null) {
-      } else if(state.isConfirmed) {
+      } else if (state.isConfirmed) {
+        console.log('state.isConfirmed')
         this.executeObjChanged(event);
       } else {
-        this.item.type = this.initialTypeValue; 
+        this.item.type = this.initialTypeValue;
       }
     });
   }
@@ -76,11 +84,17 @@ export class ModalComponent {
   }
 
   private updateDisplayArr(): void {
-    this.displayArr = this.descriptionService.getDisplayValues(this.item, this.isEdit);
+    this.displayArr = this.descriptionService.getDisplayValues(this.item);
+    this.fieldDefinitions = this.dataManagementService.getTypes(this.item);
+  }
+
+  getFieldType(key: string): 'text' | 'number' | 'date' | 'checkbox' {
+    const fieldDefinition = this.fieldDefinitions.find(field => field.key === key);
+    return fieldDefinition ? fieldDefinition.type : 'text';
   }
 
   onSave(): void {
-    this.item = { ...this.item, ...this.form.value};
+    this.item = { ...this.item, ...this.form.value };
     this.descriptionService.parseDescription(this.item, this.displayArr);
     if (this.isEdit) {
       this.dataManagementService.updateItem(this.item).subscribe()
@@ -108,4 +122,5 @@ export class ModalComponent {
       this.closeModal();
     }
   }
+
 }

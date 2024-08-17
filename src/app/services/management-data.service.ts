@@ -3,6 +3,11 @@ import { FetchDataService } from './fetch-data.service';
 import { CommonEvent } from '../modules/table.modules';
 import { removeDuplicateKeysAndLength } from '../utils/removeDuplicateKeysAndLength';
 
+export interface FieldDefinition {
+    key: string;
+    type: 'text' | 'number' | 'date' | 'checkbox';
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -11,7 +16,7 @@ export class DataManagementService {
     exceptFields: string[] = []
     commonFields: string[] = []
     eventTypes: string[] = []
-    
+
     constructor(private fetchDataService: FetchDataService) {
         this.loadData();
         this.checkDataDeps()
@@ -47,7 +52,7 @@ export class DataManagementService {
         const maxId = this.data.reduce((max, item) => item.eventId > max ? item.eventId : max, 0);
         return maxId + 1;
     }
-    
+
     checkDataDeps() {
         this.eventTypes = [...new Set(this.data.map((item) => item.type))]
         type KeyedArray = { [key: string]: any[] };
@@ -69,8 +74,79 @@ export class DataManagementService {
             acc[key] = obj[key];
             return acc;
         }, {});
-    
+
         return result;
     }
-    
+
+    getTypes(item: any): FieldDefinition[] {
+        const commonFields: FieldDefinition[] = [
+            { key: 'cowId', type: 'number' },
+            { key: 'animalId', type: 'text' },
+            { key: 'eventId', type: 'number' },
+            { key: 'deletable', type: 'checkbox' },
+            { key: 'lactationNumber', type: 'number' },
+            { key: 'daysInLactation', type: 'number' },
+            { key: 'ageInDays', type: 'number' },
+            { key: 'startDateTime', type: 'date' },
+            { key: 'reportingDateTime', type: 'date' },
+        ];
+
+        const typeSpecificFields: { [key: string]: FieldDefinition[] } = {
+            'systemHealth': [
+                { key: 'healthIndex', type: 'number' },
+                { key: 'endDate', type: 'date' },
+                { key: 'minValueDateTime', type: 'date' },
+            ],
+            'distress': [
+                { key: 'alertType', type: 'text' },
+                { key: 'duration', type: 'number' },
+                { key: 'originalStartDateTime', type: 'date' },
+                { key: 'endDateTime', type: 'date' },
+                { key: 'daysInPregnancy', type: 'number' },
+            ],
+            'changeGroup': [
+                { key: 'newGroupId', type: 'number' },
+                { key: 'newGroupName', type: 'text' },
+                { key: 'currentGroupId', type: 'number' },
+                { key: 'currentGroupName', type: 'text' },
+            ],
+            'calving': [
+                { key: 'destinationGroup', type: 'number' },
+                { key: 'destinationGroupName', type: 'text' },
+                { key: 'calvingEase', type: 'text' },
+                { key: 'daysInPregnancy', type: 'number' },
+                { key: 'oldLactationNumber', type: 'number' },
+                { key: 'newborns', type: 'text' },
+            ],
+            'herdEntry': [
+                { key: 'destinationGroup', type: 'number' },
+                { key: 'destinationGroupName', type: 'text' },
+                { key: 'cowEntryStatus', type: 'text' },
+            ],
+            'birth': [
+                { key: 'birthDateCalculated', type: 'checkbox' },
+            ],
+            'breeding': [
+                { key: 'sire', type: 'text' },
+                { key: 'breedingNumber', type: 'number' },
+                { key: 'isOutOfBreedingWindow', type: 'checkbox' },
+                { key: 'interval', type: 'number' },
+            ],
+            'systemHeat': [
+                { key: 'heatIndexPeak', type: 'number' },
+            ],
+            'dryOff': [
+                { key: 'destinationGroup', type: 'number' },
+                { key: 'destinationGroupName', type: 'text' },
+                { key: 'daysInPregnancy', type: 'number' },
+            ]
+        };
+
+        return [
+            ...commonFields,
+            ...(typeSpecificFields[item.type] || [])
+        ];
+    }
+
+
 }

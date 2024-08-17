@@ -41,7 +41,7 @@ export class DescriptionService {
         for (const field of fields as any) {
             arr.push({ key: field, value: item[field] });
         }
-        return arr.length ? arr : isEdit ? [{ key: 'No Data', value: 'No Data' }] : [];
+        return arr.length ? arr : isEdit ? [{ key: 'No Data', value: 'No Data' }] : []; // for addItem
     }
 
     parseDescription(item: any, descriptions: { key: string, value: any }[]): void {
