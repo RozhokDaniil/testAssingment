@@ -6,7 +6,7 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Date</th>
+            <th (click)="onDateHeaderClick()" style="cursor: pointer;">Date</th>
             <th>Event Name</th>
             <th>DM/Ag</th>
             <th>Description</th>
@@ -15,7 +15,7 @@
     <tbody>
         <tr *ngFor="let item of data" (click)="openEditPopup(item)">
             <td>{{ item.eventId }}</td>
-            <td>{{ item.startDateTime | date: 'MM/dd/yyyy HH:mm' }}</td>
+            <td>{{ item.startDateTime | unixTimestamp }}</td>
             <td>{{ item.type | camelCaseSplit }}</td>
             <td>{{ item.ageInDays }}</td>
             <td>

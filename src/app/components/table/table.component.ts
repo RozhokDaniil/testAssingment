@@ -8,7 +8,7 @@ import { ModalService } from '../../services/modal.service';
 import { CommonEvent } from '../../modules/table.modules';
 import { DescriptionService } from '../../services/description.service';
 import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
-import { PipesModule } from '../../pipes/pipes/pipes.module';
+import { PipesModule } from '../../pipes/pipes.module';
 
 @Component({
   selector: 'app-table',
@@ -20,7 +20,8 @@ import { PipesModule } from '../../pipes/pipes/pipes.module';
 })
 export class TableComponent implements OnInit {
   data: CommonEvent[] = [];
-  getDisplayValue: any
+  getDisplayValue: any;
+  
 
   constructor(
     private dataManagementService: DataManagementService,
@@ -41,4 +42,10 @@ export class TableComponent implements OnInit {
   openAddPopup(): void {
     this.modalService.openModal({}, false);
   }
+
+  onDateHeaderClick() {
+    // this.dataManagementService.filterByDates()
+    // this.dataManagementService.sortByDate = !this.dataManagementService.sortByDate
+  }
+  
 }

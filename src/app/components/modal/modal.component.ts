@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalService } from '../../services/modal.service';
 import { DescriptionService } from '../../services/description.service';
-import { PipesModule } from '../../pipes/pipes/pipes.module';
+import { PipesModule } from '../../pipes/pipes.module';
 
 export interface FieldDefinition {
   key: string;
