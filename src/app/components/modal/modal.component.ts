@@ -54,7 +54,9 @@ export class ModalComponent {
   }
 
   objChanged(event: string) {
-    this.item.type = event
+    if(event === this.initialTypeValue){
+      return 
+    }
     this.isEdit ? this.openConfirmationModal(event) : this.executeObjChanged(event)
   }
 
@@ -64,8 +66,9 @@ export class ModalComponent {
       if (state.isConfirmed === null) {
       } else if (state.isConfirmed) {
         this.executeObjChanged(event);
+        this.initialTypeValue = this.item.type
       } else {
-        this.item.type = this.initialTypeValue;
+        this.form.patchValue({ type: this.initialTypeValue });
       }
     });
   }
