@@ -49,6 +49,9 @@ export class DescriptionService {
         for (let i = 0; i < exceptFields.length; i++) {
             const key = exceptFields[i]
             const value = item[key]
+            if(typeof value === 'boolean'){
+                return { key, value: item[key] };
+            }
             if (key && value) {
                 return { key, value: item[key] };
             }
