@@ -33,7 +33,7 @@
                             <ng-container [ngSwitch]="getFieldType(field)">
                                 <input *ngSwitchCase="'text'" class="form-control" [id]="field"
                                     [formControlName]="field" placeholder="Enter {{field}}" />
-                                <input *ngSwitchCase="'number'" type="number" class="form-control" [id]="field"
+                                <input *ngSwitchCase="'number'" onkeydown="return event.keyCode !== 69"  type="number" class="form-control" [id]="field"
                                     [formControlName]="field" placeholder="Enter {{field}}" />
                                 <input *ngSwitchCase="'date'" type="date" class="form-control" [id]="field"
                                     [formControlName]="field" />
@@ -52,7 +52,7 @@
                                 <ng-container [ngSwitch]="getFieldType(display.key)">
                                     <input *ngSwitchCase="'text'" [id]="display.key" [formControlName]="display.key"
                                         placeholder="Enter {{display.key}}" />
-                                    <input *ngSwitchCase="'number'" type="number" [id]="display.key"
+                                    <input *ngSwitchCase="'number'" onkeydown="return event.keyCode !== 69" type="number" [id]="display.key"
                                         [formControlName]="display.key" placeholder="Enter {{display.key}}" />
                                     <input *ngSwitchCase="'date'" type="date" [id]="display.key"
                                         [formControlName]="display.key" />

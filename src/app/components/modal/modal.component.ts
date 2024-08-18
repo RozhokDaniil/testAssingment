@@ -19,7 +19,6 @@ export interface FieldDefinition {
 })
 export class ModalComponent {
   item: any = {};
-  originalItem: any = {};
   isEdit: boolean = false;
   showModal: boolean = false;
   form: FormGroup;
@@ -43,7 +42,6 @@ export class ModalComponent {
     this.modalService.modalState$.subscribe(state => {
       this.item = { ...state.item };
       this.initialTypeValue = state.item.type
-      this.originalItem = state.item;
       this.isEdit = state.isEdit;
       this.showModal = state.show;
       this.convertDatesToISO()
@@ -73,11 +71,13 @@ export class ModalComponent {
   }
 
   private executeObjChanged(event: string) {
+    this.item = this.form.value
     Object.keys(this.item).forEach(key => {
       if (!this.dataManagementService.commonFields.includes(key)) {
         delete this.item[key];
       }
     });
+
     const missedDeps = this.dataManagementService.checkDataDeps()[event];
     missedDeps.forEach((field) => {
       this.item[field] = undefined;
