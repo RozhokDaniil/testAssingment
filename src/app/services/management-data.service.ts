@@ -35,12 +35,14 @@ export class DataManagementService {
 
     addItem(item: CommonEvent) {
         item.eventId = this.getNextId();
-        item.startDateTime = new Date().toISOString();
+        item.startDateTime = item.startDateTime || new Date().toISOString();
+        item.ageInDays = item.ageInDays || 0
 
         return this.fetchDataService.postData(item)
     }
 
     updateItem(item: CommonEvent) {
+        item.ageInDays = item.ageInDays || 0
         return this.fetchDataService.putData(item)
     }
 
