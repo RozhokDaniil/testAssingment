@@ -8,11 +8,12 @@ import { ModalService } from '../../services/modal.service';
 import { CommonEvent } from '../../modules/table.modules';
 import { DescriptionService } from '../../services/description.service';
 import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
+import { PipesModule } from '../../pipes/pipes/pipes.module';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [RouterOutlet, DatePipe, FormsModule, CommonModule, ModalComponent, ConfirmationModalComponent],
+  imports: [RouterOutlet, DatePipe, FormsModule, CommonModule, ModalComponent, ConfirmationModalComponent, PipesModule],
 
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'

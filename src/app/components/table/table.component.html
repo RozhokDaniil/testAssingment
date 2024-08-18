@@ -16,11 +16,11 @@
         <tr *ngFor="let item of data" (click)="openEditPopup(item)">
             <td>{{ item.eventId }}</td>
             <td>{{ item.startDateTime | date: 'MM/dd/yyyy HH:mm' }}</td>
-            <td>{{ item.type }}</td>
+            <td>{{ item.type | camelCaseSplit }}</td>
             <td>{{ item.ageInDays }}</td>
             <td>
                 <ng-container *ngIf="getDisplayValue(item).key !== 'No Data'">
-                    <strong>{{ getDisplayValue(item).key }}:</strong> {{ getDisplayValue(item).value }}
+                    <strong>{{ getDisplayValue(item).key | camelCaseSplit }}:</strong> {{ getDisplayValue(item).value }}
                 </ng-container>
                 <ng-container *ngIf="getDisplayValue(item).key === 'No Data'">
                     {{ getDisplayValue(item).value }}

@@ -23,7 +23,7 @@
                     <ng-container *ngFor="let field of commonFields">
                         <div class="form-group">
                             <div class="d-flex justify-content-between align-items-center">
-                                <label [for]="field">{{ field | titlecase }}:</label>
+                                <label [for]="field">{{ field | camelCaseSplit }}:</label>
                                 <div *ngIf="form.get(field)?.invalid && (form.get(field)?.dirty || form.get(field)?.touched)"
                                     class="ml-2">
                                     <small class="text-danger" *ngIf="form.get(field)?.errors?.['required']">This field
@@ -32,9 +32,9 @@
                             </div>
                             <ng-container [ngSwitch]="getFieldType(field)">
                                 <input *ngSwitchCase="'text'" class="form-control" [id]="field"
-                                    [formControlName]="field" placeholder="Enter {{field}}" />
+                                    [formControlName]="field" placeholder="Enter {{field | camelCaseSplit}}" />
                                 <input *ngSwitchCase="'number'" onkeydown="return event.keyCode !== 69"  type="number" class="form-control" [id]="field"
-                                    [formControlName]="field" placeholder="Enter {{field}}" />
+                                    [formControlName]="field" placeholder="Enter {{field | camelCaseSplit}}" />
                                 <input *ngSwitchCase="'date'" type="date" class="form-control" [id]="field"
                                     [formControlName]="field" />
                                 <div *ngSwitchCase="'checkbox'" class="checkbox-container">
@@ -47,13 +47,13 @@
                     <div>
                         <div *ngFor="let display of displayArr">
                             <div *ngIf="display.key">
-                                <label [for]="display.key">{{ display.key }}:</label>
+                                <label [for]="display.key">{{ display.key | camelCaseSplit }}:</label>
 
                                 <ng-container [ngSwitch]="getFieldType(display.key)">
                                     <input *ngSwitchCase="'text'" [id]="display.key" [formControlName]="display.key"
-                                        placeholder="Enter {{display.key}}" />
+                                        placeholder="Enter {{display.key | camelCaseSplit}}" />
                                     <input *ngSwitchCase="'number'" onkeydown="return event.keyCode !== 69" type="number" [id]="display.key"
-                                        [formControlName]="display.key" placeholder="Enter {{display.key}}" />
+                                        [formControlName]="display.key" placeholder="Enter {{display.key | camelCaseSplit}}" />
                                     <input *ngSwitchCase="'date'" type="date" [id]="display.key"
                                         [formControlName]="display.key" />
                                     <input *ngSwitchCase="'checkbox'" type="checkbox" [id]="display.key"

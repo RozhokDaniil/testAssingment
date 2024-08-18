@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalService } from '../../services/modal.service';
 import { DescriptionService } from '../../services/description.service';
+import { PipesModule } from '../../pipes/pipes/pipes.module';
 
 export interface FieldDefinition {
   key: string;
@@ -13,10 +14,12 @@ export interface FieldDefinition {
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, PipesModule],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.css'
+  styleUrl: './modal.component.css',
+ 
 })
+
 export class ModalComponent {
   item: any = {};
   isEdit: boolean = false;
