@@ -14,13 +14,28 @@ export class DescriptionService {
             this.fb = fb;
     }
 
-    initializeForm(item: any): FormGroup {
+    initializeForm(item: any, isEdit: boolean): FormGroup {
+        if (!isEdit) {
+            let commonFieldsObj = this.dataManagementService.commonFields.reduce((obj: any, field) => {
+                obj[field] = item[field];
+                return obj;
+            }, {});
+            item = { ...commonFieldsObj, type: item.type }
+        }
+
         let displayArr = this.getDisplayValues(item);
         const form = this.fb.group({});
         displayArr.forEach((display: any) => {
             form.addControl(display.key, this.fb.control(display.value || ''));
         });
-        return form;
+        Object.keys(item).forEach(key => {
+            if (this.dataManagementService.commonFields.includes(key)
+            ) {
+                form.addControl(key, this.fb.control(item[key] || ''));
+
+            }
+        });
+        return form
     }
 
     getDisplayValue(item: any): { key: string, value: string } {

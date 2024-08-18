@@ -7,24 +7,27 @@
                 <button type="button" class="btn btn-danger" *ngIf="isEdit" (click)="onDelete()">Delete</button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="startDateTime">Start Date Time:</label>
-                        <input type="date" class="form-control" id="startDateTime" [(ngModel)]="item.startDateTime"
-                            name="startDateTime" />
-                    </div>
-                    <div class="form-group">
-                        <label for="type">Event Name:</label>
-                        <select class="form-control" id="type" [(ngModel)]="item.type" (ngModelChange)="objChanged($event)" name="type">
-                            <option *ngFor="let event of eventTypes" [value]="event">{{ event }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="ageInDays">DM/Ag:</label>
-                        <input type="number" class="form-control" id="ageInDays" [(ngModel)]="item.ageInDays"
-                            name="ageInDays" />
-                    </div>
-                      <div [formGroup]="form">
+                <div class="form-group">
+                    <label for="type">Event Name:</label>
+                    <select class="form-control" id="type" [(ngModel)]="item.type" (ngModelChange)="objChanged($event)" name="type">
+                        <option *ngFor="let event of eventTypes" [value]="event">{{ event }}</option>
+                    </select>
+                </div>
+                <form [formGroup]="form">
+                    <ng-container *ngFor="let field of commonFields">
+                        <div class="form-group">
+                          <label [for]="field">{{ field | titlecase }}:</label>
+                          <ng-container [ngSwitch]="getFieldType(field)">
+                            <input *ngSwitchCase="'text'" class="form-control" [id]="field" [formControlName]="field" placeholder="Enter {{field}}" />
+                            <input *ngSwitchCase="'number'" type="number" class="form-control" [id]="field" [formControlName]="field" placeholder="Enter {{field}}" />
+                            <input *ngSwitchCase="'date'" type="date" class="form-control" [id]="field" [formControlName]="field" />
+                            <div *ngSwitchCase="'checkbox'" class="checkbox-container">
+                                <input type="checkbox" [id]="field" [formControlName]="field" />
+                              </div>
+                          </ng-container>
+                        </div>
+                      </ng-container>
+                      <div >
                         <div *ngFor="let display of displayArr">
                           <div *ngIf="display.key">
                             <label [for]="display.key">{{ display.key }}:</label>

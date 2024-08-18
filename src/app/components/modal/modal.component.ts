@@ -26,6 +26,7 @@ export class ModalComponent {
   eventTypes: string[] = []
   private initialTypeValue: string = '';
   fieldDefinitions: FieldDefinition[] = [];
+  commonFields: any[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -45,10 +46,12 @@ export class ModalComponent {
       this.originalItem = state.item;
       this.isEdit = state.isEdit;
       this.showModal = state.show;
-      this.form = this.descriptionService.initializeForm(this.item);
+      this.convertDatesToISO()
+      this.form = this.descriptionService.initializeForm(this.item, this.isEdit);
       this.displayArr = this.descriptionService.getDisplayValues(this.item, this.isEdit)
       this.eventTypes = this.dataManagementService.eventTypes
-       this.fieldDefinitions = this.dataManagementService.getTypes(this.item);
+      this.fieldDefinitions = this.dataManagementService.getTypes(this.item);
+      this.commonFields = this.dataManagementService.commonFields.filter(field => field !== 'type' && field !== 'eventId');
     });
   }
 
@@ -61,7 +64,6 @@ export class ModalComponent {
     this.modalService.confirmation$.subscribe(state => {
       if (state.isConfirmed === null) {
       } else if (state.isConfirmed) {
-        console.log('state.isConfirmed')
         this.executeObjChanged(event);
       } else {
         this.item.type = this.initialTypeValue;
@@ -80,7 +82,7 @@ export class ModalComponent {
       this.item[field] = undefined;
     });
     this.updateDisplayArr();
-    this.form = this.descriptionService.initializeForm(this.item);
+    this.form = this.descriptionService.initializeForm(this.item, this.isEdit);
   }
 
   private updateDisplayArr(): void {
@@ -91,6 +93,36 @@ export class ModalComponent {
   getFieldType(key: string): 'text' | 'number' | 'date' | 'checkbox' {
     const fieldDefinition = this.fieldDefinitions.find(field => field.key === key);
     return fieldDefinition ? fieldDefinition.type : 'text';
+  }
+
+  convertDatesToISO(): void {
+    Object.keys(this.item).forEach(key => {
+      if (this.getFieldType(key) === 'date' && this.item[key]) {
+        this.item[key] = this.convertTimestampToDate(this.item[key]);
+      }
+    });
+  }
+
+  convertTimestampToDate(input: any): string {
+    if (typeof input === 'string') {
+      const date = new Date(input);
+      if (isNaN(date.getTime())) {
+        console.error(`Invalid date string: ${input}`);
+        return '';
+      }
+      return date.toISOString().split('T')[0];
+    } else if (typeof input === 'number') {
+      const milliseconds = input > 10000000000 ? input : input * 1000;
+      const date = new Date(milliseconds);
+      if (isNaN(date.getTime())) {
+        console.error(`Invalid timestamp: ${input}`);
+        return '';
+      }
+      return date.toISOString().split('T')[0];
+    } else {
+      console.error(`Unsupported date input: ${input}`);
+      return '';
+    }
   }
 
   onSave(): void {

@@ -81,7 +81,7 @@ export class DataManagementService {
     getTypes(item: any): FieldDefinition[] {
         const commonFields: FieldDefinition[] = [
             { key: 'cowId', type: 'number' },
-            { key: 'animalId', type: 'text' },
+            { key: 'animalId', type: 'number' },
             { key: 'eventId', type: 'number' },
             { key: 'deletable', type: 'checkbox' },
             { key: 'lactationNumber', type: 'number' },
