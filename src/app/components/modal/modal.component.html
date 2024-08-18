@@ -7,40 +7,61 @@
                 <button type="button" class="btn btn-danger" *ngIf="isEdit" (click)="onDelete()">Delete</button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="type">Event Name:</label>
-                    <select class="form-control" id="type" [(ngModel)]="item.type" (ngModelChange)="objChanged($event)" name="type">
-                        <option *ngFor="let event of eventTypes" [value]="event">{{ event }}</option>
-                    </select>
-                </div>
                 <form [formGroup]="form">
+                    <div class="form-group">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label for="type">Event Name:</label>
+                            <div *ngIf="form.get('type')?.invalid && (form.get('type')?.dirty || form.get('type')?.touched)">
+                                <small class="text-danger" *ngIf="form.get('type')?.errors?.['required']">Event Name is required.</small>
+                            </div>
+                        </div>
+                        <select (ngModelChange)="objChanged($event)" class="form-control" id="type" formControlName="type">
+                            <option value="">Select Event</option>
+                            <option *ngFor="let event of eventTypes" [value]="event">{{ event }}</option>
+                        </select>
+                    </div>
                     <ng-container *ngFor="let field of commonFields">
                         <div class="form-group">
-                          <label [for]="field">{{ field | titlecase }}:</label>
-                          <ng-container [ngSwitch]="getFieldType(field)">
-                            <input *ngSwitchCase="'text'" class="form-control" [id]="field" [formControlName]="field" placeholder="Enter {{field}}" />
-                            <input *ngSwitchCase="'number'" type="number" class="form-control" [id]="field" [formControlName]="field" placeholder="Enter {{field}}" />
-                            <input *ngSwitchCase="'date'" type="date" class="form-control" [id]="field" [formControlName]="field" />
-                            <div *ngSwitchCase="'checkbox'" class="checkbox-container">
-                                <input type="checkbox" [id]="field" [formControlName]="field" />
-                              </div>
-                          </ng-container>
-                        </div>
-                      </ng-container>
-                      <div >
-                        <div *ngFor="let display of displayArr">
-                          <div *ngIf="display.key">
-                            <label [for]="display.key">{{ display.key }}:</label>
-                            
-                            <ng-container [ngSwitch]="getFieldType(display.key)">
-                              <input *ngSwitchCase="'text'" [id]="display.key" [formControlName]="display.key" placeholder="Enter {{display.key}}" />
-                              <input *ngSwitchCase="'number'" type="number" [id]="display.key" [formControlName]="display.key" placeholder="Enter {{display.key}}" />
-                              <input *ngSwitchCase="'date'" type="date" [id]="display.key" [formControlName]="display.key" />
-                              <input *ngSwitchCase="'checkbox'" type="checkbox" [id]="display.key" [formControlName]="display.key" />
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label [for]="field">{{ field | titlecase }}:</label>
+                                <div *ngIf="form.get(field)?.invalid && (form.get(field)?.dirty || form.get(field)?.touched)"
+                                    class="ml-2">
+                                    <small class="text-danger" *ngIf="form.get(field)?.errors?.['required']">This field
+                                        is required.</small>
+                                </div>
+                            </div>
+                            <ng-container [ngSwitch]="getFieldType(field)">
+                                <input *ngSwitchCase="'text'" class="form-control" [id]="field"
+                                    [formControlName]="field" placeholder="Enter {{field}}" />
+                                <input *ngSwitchCase="'number'" type="number" class="form-control" [id]="field"
+                                    [formControlName]="field" placeholder="Enter {{field}}" />
+                                <input *ngSwitchCase="'date'" type="date" class="form-control" [id]="field"
+                                    [formControlName]="field" />
+                                <div *ngSwitchCase="'checkbox'" class="checkbox-container">
+                                    <input type="checkbox" [id]="field" [formControlName]="field" />
+                                </div>
                             </ng-container>
-                          </div>
+
                         </div>
-                      </div>
+                    </ng-container>
+                    <div>
+                        <div *ngFor="let display of displayArr">
+                            <div *ngIf="display.key">
+                                <label [for]="display.key">{{ display.key }}:</label>
+
+                                <ng-container [ngSwitch]="getFieldType(display.key)">
+                                    <input *ngSwitchCase="'text'" [id]="display.key" [formControlName]="display.key"
+                                        placeholder="Enter {{display.key}}" />
+                                    <input *ngSwitchCase="'number'" type="number" [id]="display.key"
+                                        [formControlName]="display.key" placeholder="Enter {{display.key}}" />
+                                    <input *ngSwitchCase="'date'" type="date" [id]="display.key"
+                                        [formControlName]="display.key" />
+                                    <input *ngSwitchCase="'checkbox'" type="checkbox" [id]="display.key"
+                                        [formControlName]="display.key" />
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

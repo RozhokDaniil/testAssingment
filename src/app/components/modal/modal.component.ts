@@ -56,6 +56,7 @@ export class ModalComponent {
   }
 
   objChanged(event: string) {
+    this.item.type = event
     this.isEdit ? this.openConfirmationModal(event) : this.executeObjChanged(event)
   }
 
@@ -126,6 +127,11 @@ export class ModalComponent {
   }
 
   onSave(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     this.item = { ...this.item, ...this.form.value };
     this.descriptionService.parseDescription(this.item, this.displayArr);
     if (this.isEdit) {

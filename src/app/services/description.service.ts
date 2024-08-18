@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataManagementService } from './management-data.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +15,7 @@ export class DescriptionService {
     }
 
     initializeForm(item: any, isEdit: boolean): FormGroup {
+        const requiredFields = ['type', 'cowId', 'animalId']
         if (!isEdit) {
             let commonFieldsObj = this.dataManagementService.commonFields.reduce((obj: any, field) => {
                 obj[field] = item[field];
@@ -31,7 +32,12 @@ export class DescriptionService {
         Object.keys(item).forEach(key => {
             if (this.dataManagementService.commonFields.includes(key)
             ) {
-                form.addControl(key, this.fb.control(item[key] || ''));
+                if(requiredFields.includes(key)){
+                    form.addControl(key, this.fb.control(item[key] || '', Validators.required));
+                } else {
+                    form.addControl(key, this.fb.control(item[key] || ''));
+
+                }
 
             }
         });
