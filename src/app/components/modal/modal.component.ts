@@ -48,12 +48,14 @@ export class ModalComponent {
       this.initialTypeValue = state.item.type
       this.isEdit = state.isEdit;
       this.showModal = state.show;
+      console.log(this.item, 'this.item')
       this.convertDatesToISO()
       this.form = this.descriptionService.initializeForm(this.item, this.isEdit);
       this.displayArr = this.descriptionService.getDisplayValues(this.item, this.isEdit)
       this.eventTypes = this.dataManagementService.eventTypes
       this.fieldDefinitions = this.dataManagementService.getTypes(this.item);
       this.commonFields = this.dataManagementService.commonFields.filter(field => field !== 'type' && field !== 'eventId');
+      console.log(this.item, 'this.item2')
     });
   }
 
@@ -121,7 +123,6 @@ export class ModalComponent {
     if (typeof input === 'string') {
       const date = new Date(input);
       if (isNaN(date.getTime())) {
-        console.error(`Invalid date string: ${input}`);
         return '';
       }
       return date.toISOString().split('T')[0];
@@ -129,12 +130,10 @@ export class ModalComponent {
       const milliseconds = input > 10000000000 ? input : input * 1000;
       const date = new Date(milliseconds);
       if (isNaN(date.getTime())) {
-        console.error(`Invalid timestamp: ${input}`);
         return '';
       }
       return date.toISOString().split('T')[0];
     } else {
-      console.error(`Unsupported date input: ${input}`);
       return '';
     }
   }
