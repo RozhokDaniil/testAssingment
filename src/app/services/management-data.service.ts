@@ -16,7 +16,6 @@ export class DataManagementService {
     exceptFields: string[] = []
     commonFields: string[] = []
     eventTypes: string[] = []
-    filteredData: any[] = [];
     sortByDate: boolean = false;
 
     constructor(private fetchDataService: FetchDataService) {
@@ -37,7 +36,7 @@ export class DataManagementService {
 
     addItem(item: CommonEvent) {
         item.eventId = this.getNextId();
-        item.startDateTime = item.startDateTime || new Date().valueOf()
+        item.startDateTime = Math.floor(Date.now() / 1000);
         item.ageInDays = item.ageInDays || 0
 
         return this.fetchDataService.postData(item)
@@ -45,18 +44,12 @@ export class DataManagementService {
 
     updateItem(item: CommonEvent) {
         item.ageInDays = item.ageInDays || 0
+
         return this.fetchDataService.putData(item)
     }
 
     deleteItem(id: number) {
         return this.fetchDataService.deleteData(id)
-    }
-
-    filterByDates(): void {
-        this.sortByDate = !this.sortByDate;
-        this.filteredData = this.sortByDate
-            ? this.filteredData.sort((a, b) => new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime())
-            : this.data;
     }
 
     private getNextId(): number {
@@ -67,7 +60,7 @@ export class DataManagementService {
     checkDataDeps() {
         this.eventTypes = [...new Set(this.data.map((item) => item.type))]
         type KeyedArray = { [key: string]: any[] };
-        const fieldCounts = this.data.reduce((counts: any, obj: any) => {
+        const fieldCounts = this.data.reduce((counts: any, obj: CommonEvent) => {
             Object.keys(obj).forEach(key => {
                 counts[key] = (counts[key] || 0) + 1;
             });
@@ -75,8 +68,8 @@ export class DataManagementService {
         }, {});
         this.exceptFields = Object.keys(fieldCounts).filter(key => fieldCounts[key] !== this.data.length);
         this.commonFields = Object.keys(fieldCounts).filter(key => fieldCounts[key] === this.data.length);
-        const depsArr = this.data.map((item: any) => {
-            const listOfExceptFields = this.exceptFields.filter((field: any) => item[field] !== undefined);
+        const depsArr = this.data.map((item: CommonEvent) => {
+            const listOfExceptFields = this.exceptFields.filter((field) => item[field as never] !== undefined);
             return { [item.type]: listOfExceptFields };
         });
         const uniqueDepsArr = removeDuplicateKeysAndLength(depsArr);
@@ -89,7 +82,7 @@ export class DataManagementService {
         return result;
     }
 
-    getTypes(item: any): FieldDefinition[] {
+    getTypes(item: CommonEvent): FieldDefinition[] {
         const commonFields: FieldDefinition[] = [
             { key: 'cowId', type: 'number' },
             { key: 'animalId', type: 'number' },

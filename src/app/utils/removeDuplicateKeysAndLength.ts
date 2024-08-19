@@ -1,4 +1,5 @@
-type ObjectWithArray = { [key: string]: any[] };
+type value = number | string | boolean
+type ObjectWithArray = { [key: string]: value[] };
 
 export const removeDuplicateKeysAndLength = (arr: ObjectWithArray[]): ObjectWithArray[] =>
     arr.reduce((unique, obj) => {

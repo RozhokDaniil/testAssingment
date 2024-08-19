@@ -1,6 +1,7 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http'
 import data from '../data.json';
 import { of } from 'rxjs';
+import { CommonEvent } from '../modules/table.modules';
 
 export const loggerInterceptor: HttpInterceptorFn = (req, next) => {
     const authReq = req.clone();
@@ -14,16 +15,16 @@ export const loggerInterceptor: HttpInterceptorFn = (req, next) => {
 
     if (method === 'POST' && url === '/api/data') {
         const newItem = req.body;
-        data.push(newItem as any);
+        data.unshift(newItem as never);
         return of(new HttpResponse({ status: 201, body: newItem }))
     }
 
 
     if (method === 'PUT' && url === '/api/data') {
-        const updatedItem: any = req.body as any;
+        const updatedItem: CommonEvent = req.body as CommonEvent;
         const index = data.findIndex(item => item.eventId === updatedItem.eventId);
         if (index > -1) {
-            data[index] = updatedItem;
+            data[index] = updatedItem as never;
             return of(new HttpResponse({ status: 200, body: updatedItem }));
         } else {
             return of(new HttpResponse({ status: 404, body: { message: 'Item not found' } }));

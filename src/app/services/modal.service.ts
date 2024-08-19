@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { CommonEvent } from '../modules/table.modules';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModalService {
-  private modalState = new BehaviorSubject<{ show: boolean, item: any, isEdit: boolean }>({
+  private modalState = new BehaviorSubject<{ show: boolean, item: CommonEvent, isEdit: boolean }>({
     show: false,
-    item: {},
+    item: {} as CommonEvent,
     isEdit: false
   });
   private confirmationState = new BehaviorSubject<{ show: boolean, isConfirmed: boolean | null }>({
@@ -18,7 +19,7 @@ export class ModalService {
   modalState$ = this.modalState.asObservable();
   confirmation$ = this.confirmationState.asObservable();
 
-  openModal(item: any, isEdit: boolean = false) {
+  openModal(item: CommonEvent, isEdit: boolean = false) {
     this.modalState.next({ show: true, item, isEdit });
   }
 
@@ -32,7 +33,7 @@ export class ModalService {
   }
 
   closeModal() {
-    this.modalState.next({ show: false, item: {}, isEdit: false });
+    this.modalState.next({ show: false, item: {} as CommonEvent, isEdit: false });
   }
 
   closeConfirmationModal() {

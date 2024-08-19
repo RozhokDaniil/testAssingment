@@ -20,8 +20,8 @@ import { PipesModule } from '../../pipes/pipes.module';
 })
 export class TableComponent implements OnInit {
   data: CommonEvent[] = [];
-  getDisplayValue: any;
-  
+  getDisplayValue: ( item: CommonEvent) => { key: string, value: string } ;
+  sortByDate: boolean = false;
 
   constructor(
     private dataManagementService: DataManagementService,
@@ -40,12 +40,6 @@ export class TableComponent implements OnInit {
   }
 
   openAddPopup(): void {
-    this.modalService.openModal({}, false);
+    this.modalService.openModal({} as CommonEvent, false);
   }
-
-  onDateHeaderClick() {
-    // this.dataManagementService.filterByDates()
-    // this.dataManagementService.sortByDate = !this.dataManagementService.sortByDate
-  }
-  
 }

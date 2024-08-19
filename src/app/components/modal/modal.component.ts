@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { ModalService } from '../../services/modal.service';
 import { DescriptionService } from '../../services/description.service';
 import { PipesModule } from '../../pipes/pipes.module';
+import { CommonEvent } from '../../modules/table.modules';
 
 export interface FieldDefinition {
   key: string;
@@ -21,14 +22,15 @@ export interface FieldDefinition {
 })
 
 export class ModalComponent {
-  item: any = {};
+  item: CommonEvent;
   isEdit: boolean = false;
   showModal: boolean = false;
   form: FormGroup;
   eventTypes: string[] = []
   private initialTypeValue: string = '';
   fieldDefinitions: FieldDefinition[] = [];
-  commonFields: any[] = []
+  commonFields: string[] = []
+  displayArr: { key: string, value: string | number | boolean | null }[]
 
   constructor(
     private fb: FormBuilder,
@@ -39,7 +41,6 @@ export class ModalComponent {
     this.form = this.fb.group({});
   }
 
-  displayArr: any = null
 
   ngOnInit(): void {
     this.modalService.modalState$.subscribe(state => {
@@ -76,21 +77,25 @@ export class ModalComponent {
     });
   }
 
-  private executeObjChanged(event: string) {
-    this.item = this.form.value
+  private executeObjChanged(event: string): void {
+    this.item = { ...this.form.value } as CommonEvent;
+
     Object.keys(this.item).forEach(key => {
-      if (!this.dataManagementService.commonFields.includes(key)) {
-        delete this.item[key];
-      }
+        if (!this.dataManagementService.commonFields.includes(key)) {
+            delete this.item[key as keyof CommonEvent];
+        }
     });
 
-    const missedDeps = this.dataManagementService.checkDataDeps()[event];
+    const deps = this.dataManagementService.checkDataDeps();
+    const missedDeps: (keyof CommonEvent)[] = deps[event] || [];
+
     missedDeps.forEach((field) => {
-      this.item[field] = undefined;
+        this.item[field] = undefined as never 
     });
+
     this.updateDisplayArr();
     this.form = this.descriptionService.initializeForm(this.item, this.isEdit);
-  }
+}
 
   private updateDisplayArr(): void {
     this.displayArr = this.descriptionService.getDisplayValues(this.item);
@@ -104,13 +109,15 @@ export class ModalComponent {
 
   convertDatesToISO(): void {
     Object.keys(this.item).forEach(key => {
-      if (this.getFieldType(key) === 'date' && this.item[key]) {
-        this.item[key] = this.convertTimestampToDate(this.item[key]);
-      }
+      const typedKey = key as keyof CommonEvent;
+
+      if (this.getFieldType(typedKey) === 'date' && this.item[typedKey] != null) {
+            this.item[typedKey] = this.convertTimestampToDate(this.item[typedKey]) as never;
+        }
     });
   }
 
-  convertTimestampToDate(input: any): string {
+  convertTimestampToDate(input: string | number | boolean): string {
     if (typeof input === 'string') {
       const date = new Date(input);
       if (isNaN(date.getTime())) {
