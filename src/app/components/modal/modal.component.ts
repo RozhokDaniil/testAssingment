@@ -48,14 +48,12 @@ export class ModalComponent {
       this.initialTypeValue = state.item.type
       this.isEdit = state.isEdit;
       this.showModal = state.show;
-      console.log(this.item, 'this.item')
       this.convertDatesToISO()
       this.form = this.descriptionService.initializeForm(this.item, this.isEdit);
       this.displayArr = this.descriptionService.getDisplayValues(this.item, this.isEdit)
       this.eventTypes = this.dataManagementService.eventTypes
       this.fieldDefinitions = this.dataManagementService.getTypes(this.item);
       this.commonFields = this.dataManagementService.commonFields.filter(field => field !== 'type' && field !== 'eventId');
-      console.log(this.item, 'this.item2')
     });
   }
 
